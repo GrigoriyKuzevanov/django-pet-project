@@ -1,24 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
+{% load static %}
 
 {% block content %}
 
-{% include 'blog/includes/nav.html' %}
-
-<ul>
+  <ul>
     {% for p in posts %}
     {% if p.is_published %}
-    <li>
-        <h2>{{ p.title }}</h2>
-        <p>{{ p.content }}</p>
+    <article class="one_third">
+        <h3 class="font-x1 btmspace-30">{{ p.title }}</h3>
+        {% autoescape off %}
+        <p>{{ p.content|linebreaks|truncatewords:40 }}</p>
+        {% endautoescape %}
         <p><a href="{% url 'post' p.id %}">Читать пост</a></p>
-        {% if not forloop.last %}
-        <hr>
-        {% endif %}
-    </li>
+    </article>
     {% endif %}
     {% endfor %}
 </ul>
 
-{% include 'blog/includes/nav.html' %}
 
 {% endblock %}
