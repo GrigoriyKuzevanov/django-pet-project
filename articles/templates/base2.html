@@ -1,4 +1,5 @@
 {% load static %}
+{% load blogtags %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -59,29 +60,11 @@
                     <aside class="span3">
 					
                         <div class="sidebar-element">
-                            
-                            <h3> Категории</h3>
-    
+
+                            <h3><a href="{% url 'home' %}" class="side-a">Все категории</a></h3>
                             <ul class="category-list">
-                                <li class="blue-bage">
-                                    <h3>
-                                        <a href="#">Category 1</a>
-                                    </h3>
-                                    <p>Category description</p>
-                                </li>
-                                <li class="red-bage">
-                                    <h3>
-                                        <a href="#">Category 2</a>
-                                    </h3>
-                                    <p>Category description</p>
-                                </li>
-                                <li class="green-bage">
-                                    <h3>
-                                        <a href="#">Category 3</a>
-                                    </h3>
-                                    <p>Category description</p>
-                                </li>
-                            </ul>
+
+                            {% show_categories cat_selected %}
                 </aside>
             </div>
         </div>

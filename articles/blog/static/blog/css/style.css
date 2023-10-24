@@ -458,10 +458,10 @@ hr.fantastico {
   background-color: #e56c69;
 }
 .magenta-bage a:hover {
-  color: #8c5d79;
+  color: #94289a;
 }
 .magenta-bage:before {
-  background-color: #8c5d79;
+  background-color: #94289a;
 }
 /*=============== Calendar ===============*/
 #wp-calendar {
@@ -1964,6 +1964,19 @@ a {
 a:hover {
   color: #2c7259;
 }
+
+.side-a {
+  color: #e2dbdb;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+}
+.side-a:hover {
+  color: #2c7259;
+}
+
 blockquote {
   font-family: Tahoma, Geneva, sans-serif;
   color: #ffffff;

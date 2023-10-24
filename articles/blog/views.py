@@ -17,11 +17,27 @@ data_db = [
     {'id': 3, 'title': 'Заголовок статьи 3', 'content': 'Содержимое статьи 3', 'is_published': True},
 ]
 
+cats_db = [
+    {'id': 1, 'name': 'Учеба', 'description': 'Всё об учебных делах', 'class': 'red-bage'},
+    {'id': 2, 'name': 'Рецепты', 'description': 'Рецепты любимых блюд', 'class': 'blue-bage'},
+    {'id': 3, 'name': 'Beauty', 'description': 'Индустрия красоты', 'class': 'green-bage'},
+]
+
 def index(request):
     data = {
         'title': 'Главная страница',
         'menu': menu,
         'posts': data_db,
+        'cat_selected': 0,
+        }
+    return render(request, 'blog/index.html', context=data)
+
+def show_category(request, cat_id):
+    data = {
+        'title': 'Отображение по рубрикам',
+        'menu': menu,
+        'posts': data_db,
+        'cat_selected': cat_id,
         }
     return render(request, 'blog/index.html', context=data)
 
