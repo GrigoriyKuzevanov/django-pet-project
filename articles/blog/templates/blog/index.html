@@ -5,15 +5,13 @@
 
   <ul>
     {% for p in posts %}
-    {% if p.is_published %}
     <article class="one_third">
         <h3 class="font-x1 btmspace-30">{{ p.title }}</h3>
         {% autoescape off %}
         <p>{{ p.content|linebreaks|truncatewords:40 }}</p>
         {% endautoescape %}
-        <p><a href="{% url 'post' p.id %}">Читать пост</a></p>
+        <p><a href="{{ p.get_absolute_url }}">Читать пост</a></p>
     </article>
-    {% endif %}
     {% endfor %}
 </ul>
 

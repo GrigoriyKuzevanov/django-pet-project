@@ -1,0 +1,46 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<article class="element-box">
+    <header class="element-top-bar clearfix">
+        <a href="" class="user-info f1">Username</a>
+        <b class="time-info fr">{{ post.time_update }}</b>
+    </header>
+
+    <h2>{{ post.title }}</h2>
+
+    {% if post.photo %}
+    <a href="{{ post.photo.url }}" class="show-image" title="{{ post.title }}">
+        <img src="{{ post.photo.url }}" alt="image">
+        <b class="zoom-icon"></b>
+    </a>
+    <p><img src="{{ post.photo.url }}"</p>
+    {% endif %}
+    
+    <p>{{ post.content|linebreaks }}</p>
+    
+    <footer class="element-bottom-bar">
+        <ul>
+            <!-- <li>
+                <a href="#" class="comment-icon"><b>3</b> Comments</a>
+            </li> -->
+`            <!-- <li>
+                <a href="#">Категория</a>
+            </li> -->
+            <!-- <li>
+                <a href="#" class="link-icon">Permalink</a>
+            </li> -->
+        </ul>			
+    </footer>
+</article>
+
+
+<!-- <h1>{{post.title}}</h1>
+
+{% if post.photo %}
+<p><img src="{{ post.photo.url }}"</p>
+{% endif %}
+
+{{ post.content|linebreaks }} -->
+
+{% endblock %}
