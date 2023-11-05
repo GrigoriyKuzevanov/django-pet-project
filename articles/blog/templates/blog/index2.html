@@ -9,7 +9,7 @@
 
     <header class="element-top-bar clearfix">
         <a href="" class="user-info f1">Username</a>
-        <b class="time-info fr">{{ p.time_update }}</b>
+        <b class="time-info fr">{{ p.time_update|date:"d-N-Y H:i" }}</b>
     </header>
 
     <h2>{{ p.title }}</h2>

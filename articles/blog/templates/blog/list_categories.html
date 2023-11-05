@@ -1,17 +1,19 @@
 {% for cat in cats %}
 {% if cat.id == cat_selected %}
-<li class="magenta-bage">
-    <h3>
-        <a>{{ cat.name }}</a>
-    </h3>
-    <p>{{ cat.description }}</p>
-</li>
-{% else %}
-<li class="blue-bage">
-    <h3>
-        <a href="{% url 'category' cat.id %}">{{ cat.name }}</a>
-    </h3>
-    <p>{{ cat.description }}</p>
-</li>
+        <li class="magenta-bage">
+            <h3>
+                <a>{{ cat.name }}</a>
+            </h3>
+            <!-- <p>{{ cat.description }}</p> -->
+            <p>Количество постов: {{ cat.posts.all|length }}</p>
+        </li>
+        {% else %}
+        <li class="blue-bage">
+            <h3>
+                <a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+            </h3>
+            <!-- <p>{{ cat.description }}</p> -->
+            <p>Количество постов: {{ cat.posts.all|length }}</p>
+        </li>
 {% endif %}
 {% endfor %}

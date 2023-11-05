@@ -1,0 +1,24 @@
+{% if tags %}
+        {% for tag in tags %}
+        <li>
+            <a href="{{ tag.get_absolute_url }}">{{ tag.tag }} <b>{{ tag.tags.all|length }}</b></a>
+        </li>
+        {% endfor %}
+
+        <!-- <li>
+            <a href="#">design <b>15</b></a>
+        </li>
+        <li>
+            <a href="#">art <b>7</b></a>
+        </li>
+        <li>
+            <a href="#">fashion <b>16</b></a>
+        </li>
+        <li>
+            <a href="#">photo <b>25</b></a>
+        </li>
+        <li>
+            <a href="#">nature <b>70</b></a>
+        </li> -->
+    </ul>
+{% endif %}

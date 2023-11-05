@@ -56,13 +56,20 @@
                 </section>
 
                 <aside class="span3">
-				
-                        <div class="sidebar-element">
+                    <div class="sidebar-element">
+                    <h3><a href="{% url 'home' %}" class="side-a">Все категории</a></h3>
+                    <ul class="category-list">
+                        {% show_categories cat_selected %}
+                    </ul>
+                    </div>
 
-                            <h3><a href="{% url 'home' %}" class="side-a">Все категории</a></h3>
-                            <ul class="category-list">
+                    <div class="sidebar-element">				
+                    <h3>Теги:</h3>
+                    <ul class="tags">
+                        {% show_all_tags %}
+                    </ul>
+                    </div>
 
-                            {% show_categories cat_selected %}
                 </aside>
             </div>
         </div>

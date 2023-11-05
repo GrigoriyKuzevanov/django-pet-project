@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
-from blog.models import Post
+from blog.models import Category, Post, TagPost
 
 menu = [
     {'title': 'О сайте', 'url_name': 'about'},
@@ -34,14 +34,16 @@ def index(request):
         }
     return render(request, 'blog/index2.html', context=data)
 
-def show_category(request, cat_id):
+def show_category(request, cat_slug):
+    category = get_object_or_404(Category, slug=cat_slug)
+    posts = Post.published.filter(category_id=category.pk)
     data = {
-        'title': 'Отображение по рубрикам',
+        'title': f'Рубрика: {category.name}',
         'menu': menu,
-        'posts': data_db,
-        'cat_selected': cat_id,
+        'posts': posts,
+        'cat_selected': category.pk,
         }
-    return render(request, 'blog/index.html', context=data)
+    return render(request, 'blog/index2.html', context=data)
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'О сайте', 'menu': menu})
@@ -67,3 +69,15 @@ def login(request):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Page not found</h1>")
+
+def show_tag_postlist(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    posts = tag.tags.filter(is_published=Post.Status.PUBLISHED)
+
+    data = {
+        'title': f'Тег: {tag.tag}',
+        'menu': menu,
+        'posts': posts,
+        'cat_selected': None,
+    }
+    return render(request, 'blog/index2.html', context=data)

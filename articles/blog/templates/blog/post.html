@@ -21,16 +21,28 @@
     
     <footer class="element-bottom-bar">
         <ul>
-            <!-- <li>
+            <li>
                 <a href="#" class="comment-icon"><b>3</b> Comments</a>
-            </li> -->
-`            <!-- <li>
-                <a href="#">Категория</a>
-            </li> -->
-            <!-- <li>
+            </li>
+            <li>
+                <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
+            </li>
+            <li>
                 <a href="#" class="link-icon">Permalink</a>
-            </li> -->
+            </li>
         </ul>			
+    </footer>
+    <footer class="element-bottom-bar">
+        {% with post.tags.all as tags %}
+        {% if tags %}
+        <ul>
+            <li><a href="#">Теги:</a></li>
+            {% for tag in tags %}
+            <li><a href="{{ tag.get_absolute_url }}">{{ tag.tag }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
     </footer>
 </article>
 
