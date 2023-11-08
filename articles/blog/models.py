@@ -36,6 +36,7 @@ class Post(models.Model):
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
     category = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
+    author = models.OneToOneField('Author', on_delete=models.SET_NULL, null=True, blank=True, related_name='posts_author')
 
     objects = models.Manager()      # менеджер модели по умолчанию
     published = PublishedManager()  # пользовательский менеджер модели
@@ -76,3 +77,12 @@ class TagPost(models.Model):
     
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
+    
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True)
+    a_count = models.IntegerField(blank=True, default=0)
+
+    def __str__(self):
+        return self.name
