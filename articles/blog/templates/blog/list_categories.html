@@ -4,18 +4,14 @@
             <h3>
                 <a>{{ cat.name }}</a>
             </h3>
-            <!-- <p>{{ cat.description }}</p> -->
-            <!-- <p>Количество постов: {{ cat.posts.all|length }}</p> -->
-            <p>Количество постов: {{ cat.posts.count }}</p>
+            <p>Количество постов: {{ cat.total_posts }}</p>
         </li>
         {% else %}
         <li class="blue-bage">
             <h3>
                 <a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
             </h3>
-            <!-- <p>{{ cat.description }}</p> -->
-            <!-- <p>Количество постов: {{ cat.posts.all|length }}</p> -->
-            <p>Количество постов: {{ cat.posts.count }}</p>
+            <p>Количество постов: {{ cat.total_posts }}</p>
         </li>
 {% endif %}
 {% endfor %}

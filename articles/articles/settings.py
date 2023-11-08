@@ -31,6 +31,9 @@ SECRET_KEY = 'django-insecure-ksl&trntrid^i)ou#jd8=lfam36c5rl=ljlq=+clpteqx&6jej
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'blog.apps.BlogConfig',
+    'debug_toolbar',
 
 ]
 
@@ -57,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'articles.urls'
