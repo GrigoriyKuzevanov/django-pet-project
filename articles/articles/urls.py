@@ -26,3 +26,6 @@ urlpatterns = [
 
 
 handler404 = page_not_found
+
+admin.site.site_header = "Панель администрирования DJ Blog"
+admin.site.index_title = "Учебный проект по django - блог"
