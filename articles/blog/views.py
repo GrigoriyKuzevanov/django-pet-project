@@ -59,7 +59,7 @@ def show_post(request, post_slug):
     return render(request, 'blog/post.html', data)
 
 def addpage(request):
-    return HttpResponse('Добавление статьи')
+    return render(request, 'blog/addpage.html', {'menu': menu, 'title': 'Добавление статьи'})
 
 def contacts(request):
     return HttpResponse('Обратная связь')

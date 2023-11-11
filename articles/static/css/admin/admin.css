@@ -1,0 +1,11 @@
+#header , .module caption, #changelist-filter h2{
+    background: rgb(4, 44, 4);
+}
+
+div.breadcrumbs {
+    background: rgb(7, 76, 7);
+}
+
+a:link, a:visited {
+    color:bisque
+}

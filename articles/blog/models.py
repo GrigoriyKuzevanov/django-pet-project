@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.query import QuerySet
+from slugify import slugify
 from django.urls import reverse
 
 
@@ -51,6 +52,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_slug': self.slug})
     
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.title) # при сохранении поста, поле слаг формируется автоматически на основе заголовка
+    #     super().save(*args, **kwargs)
+    
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
@@ -79,7 +84,7 @@ class Category(models.Model):
     
 
 class TagPost(models.Model):
-    tag = models.CharField(max_length=100, db_index=True)
+    tag = models.CharField(max_length=100, db_index=True, verbose_name='Тэг')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
@@ -87,6 +92,10 @@ class TagPost(models.Model):
     
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
+    
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
     
 
 class Author(models.Model):
