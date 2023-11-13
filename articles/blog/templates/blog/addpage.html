@@ -6,22 +6,13 @@
     <h2>{{ title }}</h2>
     <form action="" method="POST" class="comment-form row-fluid">
         {% csrf_token %}
-        <p>
-            <label for="id-1" class="span2">Текст</label>
-            <textarea id="id-1" class="span10" name="field_text" data-trigger="keyup" data-rangelength="[20,1000]"></textarea>
-        </p>
-        <p>
-            <label for="id-2" class="span2">Отметка</label>
-            <input type="checkbox" id="id-2" class="span10" name="field_check">
-        </p>
-        <p>
-            <label for="id-3" class="span2">Число</label>
-            <input type="number" id="id-3" class="span10" name="field_num">
-        </p>
-        <p>
-            <label for="id-4" class="span2">Пароль</label>
-            <input type="password" id="id-4" class="span10" name="field_password">
-        </p>
+        <div class="errorlist">{{ form.non_field_errors }}</div>
+
+        {% for f in form %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="errorlist">{{ f.errors }}</div>
+        {% endfor %}
+
         <p>
             <input type="submit" value="Отправить" class="button button-load large-button offset2 spa4">
         </p>

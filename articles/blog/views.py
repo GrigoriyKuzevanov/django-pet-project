@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
+from .forms import AddPostForm
 from blog.models import Category, Post, TagPost
 
 menu = [
@@ -59,7 +60,24 @@ def show_post(request, post_slug):
     return render(request, 'blog/post.html', data)
 
 def addpage(request):
-    return render(request, 'blog/addpage.html', {'menu': menu, 'title': 'Добавление статьи'})
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            # print(form.cleaned_data)
+            try:
+                Post.objects.create(**form.cleaned_data)
+                return redirect('home')
+            except:
+                form.add_error(None, 'Возникла ошибка при добавлении поста')
+    else:
+        form = AddPostForm()
+        
+    data = {
+        'menu': menu,
+        'title': 'Добавление статьи',
+        'form': form
+    }
+    return render(request, 'blog/addpage.html', data)
 
 def contacts(request):
     return HttpResponse('Обратная связь')

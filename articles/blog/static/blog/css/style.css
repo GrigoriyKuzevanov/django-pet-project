@@ -662,7 +662,7 @@ hr.fantastico {
   margin: 0.75em 0;
 }
 .tags > li > a {
-  color: #4b4b4b;
+  color: #8a8a8a;
   background-color: #2a2a2a;
   padding: 0.75em 3.5em 0.75em 0.5em;
   display: table;
@@ -699,6 +699,13 @@ hr.fantastico {
   padding: 24px 36px;
   margin: 0;
 }
+
+.errorlist {
+  color: wheat;
+  padding: 2%;
+  margin: 0;
+}
+
 .comment-items {
   -webkit-box-shadow: 0 -1px 0 #303030;
   box-shadow: 0 -1px 0 #303030;
@@ -2004,7 +2011,8 @@ select,
 textarea {
   font-family: 'Montserrat', sans-serif;
   text-decoration: none;
-  padding: 0.75em;
+  /* padding: 0.75em; */
+  padding: 0em;
 }
 select,
 textarea,
@@ -2085,7 +2093,7 @@ input[type="color"] {
   clear: both;
 }
 .comment-form > p > label {
-  color: #666666;
+  color: #8a8a8a;
 }
 .comment-form > p > input[type=text],
 .comment-form > p > input[type=email],
