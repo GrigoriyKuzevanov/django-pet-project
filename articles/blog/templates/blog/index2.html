@@ -13,6 +13,17 @@
     </header>
 
     <h2>{{ p.title }}</h2>
+
+    {% if p.image %}
+    <figure>
+        <a href="{{ p.image.url }}" class="show-image" title="{{ p.title }}">
+            <img src="{{ p.image.url }}" alt="image">
+            <b class="zoom-icon"></b>
+        </a>
+    </figure>
+    <!-- <p><img src="{{ post.image.url }}"</p> -->
+    {% endif %}
+
     {% autoescape off %}
     <p>{{ p.content|linebreaks|truncatewords:40 }}</p>
     {% endautoescape %}

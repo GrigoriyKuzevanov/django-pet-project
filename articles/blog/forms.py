@@ -12,7 +12,9 @@ class AsciiValidator:
     Валидатор для текстовых полей: 
     разрешены только символы из коллекции ascii.printable
     """
-    ALLOWED = ascii_letters
+    latin = printable
+    russian = ''.join(chr(i) for i in range(1040, 1104)) + chr(1105)
+    ALLOWED = latin + russian
     code = 'ascii.printable'
 
     def __init__(self, message=None):
@@ -38,7 +40,7 @@ class AddPostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'slug', 'content', 'is_published', 'category', 'author']  # поля модели, отображаемые в форме ('__all__' - все)
+        fields = ['title', 'slug', 'image', 'content', 'is_published', 'category', 'author']  # поля модели, отображаемые в форме ('__all__' - все)
         widgets = {
             'title': forms.TextInput(),
             'content': forms.Textarea()
