@@ -31,7 +31,7 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ('post_image', )    # поля только для чтения (поле slug формируется автоматически при сохранении поста)
     prepopulated_fields = {'slug': ('title', )} # автозаполнение поля slug на основе других полей (title)
     filter_horizontal = ('tags', )  # настройка видежета редактирования тэгов
-    list_display = ('title', 'post_image', 'time_create', 'is_published', 'category', 'brief_info')   # поля, которые отображаются в админпанели для модели Post
+    list_display = ('title', 'post_image', 'time_create', 'is_published', 'category')   # поля, которые отображаются в админпанели для модели Post
     list_display_links = ('title',)    # поля, являются ссылками на редактирвование отдельной записи
     ordering = ('-time_create', 'title')     # поля для сортировки (при совпадении 'time_create', сортировка по 'title')
     list_editable = ('is_published',)    # поля с возможностью редактирования (не может быть одновременно ссылкой)
@@ -41,13 +41,13 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = (AuthorFilter, 'category__name', 'is_published')    # поля для фильтрации
     save_on_top = True  # панель сохранения сверху
 
-    @admin.display(description='Краткое описание', ordering='content')      # название пользовательского поля для отображения в админпанели
-    def brief_info(self, post: Post):
-        """
-        пользовательское поле, которое возвращает строку с длиной символов
-        в поле content модели Post
-        """
-        return f'Длина статьи - {len(post.content)} символов'
+    # @admin.display(description='Краткое описание', ordering='content')      # название пользовательского поля для отображения в админпанели
+    # def brief_info(self, post: Post):
+    #     """
+    #     пользовательское поле, которое возвращает строку с длиной символов
+    #     в поле content модели Post
+    #     """
+    #     return f'Длина статьи - {len(post.content)} символов'
     
     @admin.display(description='Изображение')
     def post_image(self, post: Post):
@@ -79,7 +79,7 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
-# admin.site.register(Post, PostAdmin)
+
 
 
 @admin.register(TagPost)

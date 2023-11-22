@@ -5,12 +5,12 @@ from blog import converters
 register_converter(converters.FourDigitYearConverter, "year4")
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('', views.PostHome.as_view(), name='home'),
     path('about/', views.about, name='about'),
-    path('addpage/', views.addpage, name='addpage'),
+    path('addpage/', views.AddPage.as_view(), name='addpage'),
     path('contacts/', views.contacts, name='contacts'),
     path('login/', views.login, name='login'),
     path('post/<slug:post_slug>/', views.show_post, name='post'),
-    path('category/<slug:cat_slug>/', views.show_category, name='category'),
-    path('tag/<slug:tag_slug>/', views.show_tag_postlist, name='tag'),
+    path('category/<slug:cat_slug>/', views.PostCategory.as_view(), name='category'),
+    path('tag/<slug:tag_slug>/', views.TagList.as_view(), name='tag'),
 ]
