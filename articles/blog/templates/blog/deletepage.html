@@ -1,0 +1,16 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<div class="element-box comment-box">
+
+    <h2>{{ title }}</h2>
+    <form action="" method="POST" class="comment-form row-fluid">
+        {% csrf_token %}
+        <p>Вы уверены что хотите удалить "{{ post }}"?</p>
+        <p>
+            <input type="submit" value="Удалить" class="button button-load large-button offset2 spa4">
+        </p>
+    </form>
+</div>
+
+{% endblock %}
