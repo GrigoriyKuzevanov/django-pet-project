@@ -11,6 +11,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView, C
 from .forms import AddPostForm, UploadFileForm
 from .models import Category, Post, TagPost, UploadFiles
 from blog.utils import DataMixin
+from django.core.paginator import Paginator
 
 menu = [
     {'title': 'О сайте', 'url_name': 'about'},
@@ -50,15 +51,13 @@ class PostCategory(DataMixin, ListView):
 
 
 def about(request):
-    if request.method == 'POST':
-        # handle_uploaded_file(request.FILES['file_upload'])  # ключ 'file_upload' в html форме атрибут name='file_upload'
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            fp = UploadFiles(file=form.cleaned_data['file'])
-            fp.save()
-    else:
-        form = UploadFileForm()
-    return render(request, 'blog/about.html', {'title': 'О сайте', 'menu': menu, 'form': form})
+    contact_list = Post.published.all()
+    paginator = Paginator(contact_list, 3)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'blog/about.html', {'title': 'О сайте', 'menu': menu, 'page_obj': page_obj})
 
 
 class ShowPost(DataMixin, DetailView):

@@ -52,9 +52,12 @@
                 
                 <section class="span9">
 
-                    {% block content %} {% endblock %}
-                </section>
+                    {% block content %}{% endblock %}
 
+                    {% block navigation %}{% endblock %}
+                   
+                </section>
+                    
                 <aside class="span3">
                     <div class="sidebar-element">
                     <h3><a href="{% url 'home' %}" class="side-a">Все категории</a></h3>
