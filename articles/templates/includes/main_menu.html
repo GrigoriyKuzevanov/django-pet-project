@@ -1,0 +1,18 @@
+<input type="checkbox" id="dropdown-menu" class="custom-dropdown">
+<!-- <label for="dropdown-menu">Menu <b></b></label> -->
+
+<ul>
+    <li><a href="{% url 'home' %}">Блог</a></li>
+
+    {% for m in mainmenu %}
+    <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'users:logout' %}">Выйти</a></li>
+    <li><a href="#">{{ user.username }}</a></li>
+    {% else %}
+    <li><a href="{% url 'users:login' %}">Войти</a></li>
+    <li><a href="#">Регистрация</a></li>
+    {% endif %}
+</ul>

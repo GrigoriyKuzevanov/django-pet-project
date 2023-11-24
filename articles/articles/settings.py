@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
     'debug_toolbar',
 
 ]
@@ -79,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users.context_processors.get_blog_context',
             ],
         },
     },

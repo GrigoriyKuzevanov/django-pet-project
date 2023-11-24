@@ -1,0 +1,23 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+<div class="element-box comment-box">
+
+    <h2>Авторизация</h2>
+
+    <form action="" method="POST" class="comment-form row-fluid">
+        {% csrf_token %}
+        {% for f in form %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        {% endfor %}
+
+        <p>
+            <input type="submit" value="Войти" class="button button-load large-button offset2 spa4">
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}

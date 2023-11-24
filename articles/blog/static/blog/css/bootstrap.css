@@ -1092,6 +1092,9 @@ textarea {
   .span9 {
     width: 870px;
   }
+  .span9_menu {
+    width: 1200
+  }
   .span8 {
     width: 770px;
   }
