@@ -5,24 +5,24 @@ from django.utils.safestring import mark_safe
 from .models import Post, Category, TagPost
 
 
-class AuthorFilter(admin.SimpleListFilter):
-    """
-    класс пользовательского поля для фильтрации
-    """
-    title = 'Статус автора'
-    parameter_name = 'status'
+# class AuthorFilter(admin.SimpleListFilter):
+#     """
+#     класс пользовательского поля для фильтрации
+#     """
+#     title = 'Статус автора'
+#     parameter_name = 'status'
 
-    def lookups(self, request, model_admin):
-        return [
-            ('has author', 'Есть автор'),
-            ('has not author', 'Автор не указан')
-        ]
+#     def lookups(self, request, model_admin):
+#         return [
+#             ('has author', 'Есть автор'),
+#             ('has not author', 'Автор не указан')
+#         ]
     
-    def queryset(self, request, queryset):
-        if self.value() == 'has author':
-            return queryset.filter(author__isnull=False)
-        elif self.value() == 'has not author':
-            return queryset.filter(author__isnull=True)
+#     def queryset(self, request, queryset):
+#         if self.value() == 'has author':
+#             return queryset.filter(author__isnull=False)
+#         elif self.value() == 'has not author':
+#             return queryset.filter(author__isnull=True)
 
 
 @admin.register(Post)                   # то же, что и admin.site.register(Post, PostAdmin)
@@ -38,7 +38,7 @@ class PostAdmin(admin.ModelAdmin):
     list_per_page = 10  # пагинация отображения на странице
     actions = ('set_published', 'set_draft')   # действия на странице отображения в админпанели
     search_fields = ('title', 'category__name')  # список полей для панели поиска
-    list_filter = (AuthorFilter, 'category__name', 'is_published')    # поля для фильтрации
+    list_filter = ('category__name', 'is_published')    # поля для фильтрации
     save_on_top = True  # панель сохранения сверху
 
     # @admin.display(description='Краткое описание', ordering='content')      # название пользовательского поля для отображения в админпанели

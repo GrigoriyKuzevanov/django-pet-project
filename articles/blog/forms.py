@@ -2,7 +2,7 @@ from django import forms
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.deconstruct import deconstructible
 from django.core.exceptions import ValidationError
-from .models import Category, Author, Post
+from .models import Category, Post
 from string import printable, ascii_letters
 
 
@@ -35,12 +35,12 @@ class AddPostForm(forms.ModelForm):
     Класс для формы добавления нового поста
     """
     category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория', empty_label='Категория не выбрана')
-    author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Автор', empty_label='Автор не выбран')    # required=False делает поле необязательным
+    # author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Автор', empty_label='Автор не выбран')    # required=False делает поле необязательным
 
 
     class Meta:
         model = Post
-        fields = ['title', 'slug', 'image', 'content', 'is_published', 'category', 'author']  # поля модели, отображаемые в форме ('__all__' - все)
+        fields = ['title', 'slug', 'image', 'content', 'is_published', 'category']  # поля модели, отображаемые в форме ('__all__' - все)
         widgets = {
             'title': forms.TextInput(),
             'content': forms.Textarea()

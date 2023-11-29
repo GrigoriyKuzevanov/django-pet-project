@@ -8,7 +8,7 @@
 <article class="element-box">
 
     <header class="element-top-bar clearfix">
-        <a href="" class="user-info f1">Username</a>
+        <a href="" class="user-info f1">{{ p.author.username|default:'Аноним' }}</a>
         <b class="time-info fr">{{ p.time_update|date:"d-N-Y H:i" }}</b>
     </header>
 

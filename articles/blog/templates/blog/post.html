@@ -3,7 +3,7 @@
 {% block content %}
 <article class="element-box">
     <header class="element-top-bar clearfix">
-        <a href="" class="user-info f1">Username</a>
+        <a href="" class="user-info f1">{{ post.author.username|default:'Аноним' }}</a>
         <b class="time-info fr">{{ post.time_update|date:"d-N-Y H:i" }}</b>
     </header>
 

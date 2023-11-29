@@ -12,6 +12,8 @@ from .forms import AddPostForm, UploadFileForm
 from .models import Category, Post, TagPost, UploadFiles
 from blog.utils import DataMixin
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 menu = [
     {'title': 'О сайте', 'url_name': 'about'},
@@ -50,6 +52,7 @@ class PostCategory(DataMixin, ListView):
         return self.get_mixin_context(context, title=f'Категория - {category.name}', cat_selected=category.pk)
 
 
+@login_required
 def about(request):
     contact_list = Post.published.all()
     paginator = Paginator(contact_list, 3)
@@ -74,7 +77,7 @@ class ShowPost(DataMixin, DetailView):
         return get_object_or_404(Post.published, slug=self.kwargs[self.slug_url_kwarg])
 
 
-class AddPage(DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     # model = Post
     # fields = ['title', 'slug', 'image', 'content', 'is_published', 'category', 'author']
@@ -83,6 +86,10 @@ class AddPage(DataMixin, CreateView):
                                            # в CreateView берется из метода get_absolute_url класса связанной модели
     title_page = 'Добавление поста'
 
+    def form_valid(self, form):             # при отправлении формы, в post добавляется автор - пользователь который делает запрос
+        p = form.save(commit=False)
+        p.author = self.request.user
+        return super().form_valid(form)
 
 class UpdatePage(DataMixin, UpdateView):
     model = Post

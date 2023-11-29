@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 from slugify import slugify
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 
 class PublishedManager(models.Manager):
@@ -42,8 +43,8 @@ class Post(models.Model):
                                        )
     category = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags', verbose_name='Тэги')
-    author = models.OneToOneField('Author', on_delete=models.SET_NULL, null=True, blank=True, related_name='posts_author', verbose_name='Автор')
-
+    # author = models.OneToOneField('Author', on_delete=models.SET_NULL, null=True, blank=True, related_name='posts_author', verbose_name='Автор')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='posts', null=True, default=None)
     objects = models.Manager()      # менеджер модели по умолчанию
     published = PublishedManager()  # пользовательский менеджер модели
 
@@ -99,13 +100,13 @@ class TagPost(models.Model):
         verbose_name_plural = 'Тэги'
     
 
-class Author(models.Model):
-    name = models.CharField(max_length=100)
-    age = models.IntegerField(null=True)
-    a_count = models.IntegerField(blank=True, default=0)
+# class Author(models.Model):
+#     name = models.CharField(max_length=100)
+#     age = models.IntegerField(null=True)
+#     a_count = models.IntegerField(blank=True, default=0)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
 class UploadFiles(models.Model):
