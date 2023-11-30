@@ -310,8 +310,11 @@ hr.fantastico {
   transition: all 0.2s ease-out;
 }
 .element-box > p {
-  padding: 0 36px;
+  padding: 0px 36px;
   color: #a3a3a3;
+}
+.message-box > p {
+  padding: 0px 36px 36px 36px;
 }
 .element-box > .audio-box {
   margin: 0 36px;

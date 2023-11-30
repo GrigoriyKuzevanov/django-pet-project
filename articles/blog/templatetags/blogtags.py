@@ -1,9 +1,9 @@
 from django import template
 from django.db.models import Count
-from blog.models import Category, TagPost
-import blog.views as views
-from blog.utils import menu
 
+import blog.views as views
+from blog.models import Category, TagPost
+from blog.utils import menu
 
 register = template.Library()
 

@@ -1,0 +1,28 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+<div class="element-box comment-box">
+
+    <h2>Регистрация</h2>
+
+    <form action="" method="POST" class="comment-form row-fluid">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="errorlist">{{ f.errors }}</div>
+        {% endfor %}
+
+        <!-- {{ form.as_p }} -->
+
+        <p>
+            <input type="submit" value="Зарегистрироваться" class="button button-load large-button offset2 spa4">
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}
