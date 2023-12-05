@@ -69,12 +69,12 @@ class AddCommentForm(forms.ModelForm):
     """
     Добавление комментария
     """
-    author = forms.CharField(disabled=True, label='Пользователь', widget=forms.TextInput())
+    # author = forms.CharField(disabled=True, label='Пользователь', widget=forms.TextInput())
     text = forms.CharField(label='Комментарий', widget=forms.Textarea())
     class Meta:
         model = Comment
         fields = [
-            'author',
+            # 'author',
             'text',
         ]
         labels = {

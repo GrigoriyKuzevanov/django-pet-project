@@ -146,6 +146,10 @@ class Comment(models.Model):
         verbose_name_plural = "Комментарии"
         ordering = ["-time_create"]
         indexes = [models.Index(fields=["-time_create"])]
+    
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'post_slug': self.post.slug})
+
 
 class Reply(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор')

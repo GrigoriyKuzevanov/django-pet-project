@@ -81,12 +81,19 @@ def about(request):
     )
 
 
-class ShowPost(DataMixin, DetailView):
+class ShowPost(DataMixin, DetailView, CreateView):
     # model = Post
+    form_class = AddCommentForm
     template_name = "blog/post.html"
     slug_url_kwarg = "post_slug"  # название slug переменной из запроса в urls
     # context_object_name = 'post'
+    
 
+    def form_valid(self, form):
+        c = form.save(commit=False)
+        c.author = self.request.user
+        c.post = self.get_object()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

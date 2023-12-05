@@ -24,7 +24,11 @@
     <footer class="element-bottom-bar">
         <ul>
             <li>
-                <a href="#" class="comment-icon"><b>3</b> Comments</a>
+                {% if post.total_comments %}
+                <a href="#comments" class="comment-icon">Комментариев: {{ post.total_comments }}</a>
+                {% else %}
+                <a href="#add_comment" class="comment-icon">Комментариев еще нет</a>
+                {% endif %}
             </li>
             <li>
                 <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
@@ -39,7 +43,7 @@
 
 <div class="element-box comment-box">
 
-    <h2>Оставить комментарий</h2>
+    <h2 id="add_comment">Оставить комментарий</h2>
 
     <form action="" method="POST" class="comment-form row-fluid">
         {% csrf_token %}
@@ -56,12 +60,14 @@
 
     </form>
 
-    <h2>Всего комментариев: {{ post.total_comments }}</h2>
+    {% if post.total_comments %}
+    <h2 id="comments">Всего комментариев: {{ post.total_comments }}</h2>
     <ul class="comment-items">
         {% for comm in post.comments.all %}
         <li class="row-fluid">
             <div class="span10 comment-info">
-                <h3>{{ comm.author }}</h3>
+                <h3>{{ comm.author.first_name }} {{ comm.author.last_name }}</h3>
+                <p>{{ comm.author}}</p>
                 <p>{{ comm.text }}</p>
                 <div>
                     <a href="#" class="reply">↶ Reply</a>
@@ -71,6 +77,7 @@
         </li>
         {% endfor %}
     </ul>
+    {% endif %}
 
 </div>
 
