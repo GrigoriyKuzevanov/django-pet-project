@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db import models
 from django.db.models.query import QuerySet
+from django.db.models import Count
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
@@ -17,7 +18,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 
 from blog.utils import DataMixin
 
-from .forms import AddPostForm, UploadFileForm
+from .forms import AddPostForm, UploadFileForm, AddCommentForm
 from .models import Category, Post, TagPost, UploadFiles
 
 menu = [
@@ -45,7 +46,7 @@ class PostCategory(DataMixin, ListView):
     template_name = "blog/index2.html"
     context_object_name = "posts"
     allow_empty = (
-        False  # при пустом списке сontext['posts'] генерируется исключение 404
+        False,  # при пустом списке сontext['posts'] генерируется исключение 404
     )
 
     def get_queryset(self):
@@ -86,12 +87,13 @@ class ShowPost(DataMixin, DetailView):
     slug_url_kwarg = "post_slug"  # название slug переменной из запроса в urls
     # context_object_name = 'post'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(context, title=context["post"].title)
+        return self.get_mixin_context(context, title=context['post'].title, form=AddCommentForm)
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Post.published, slug=self.kwargs[self.slug_url_kwarg])
+        return get_object_or_404(Post.published.prefetch_related('comments').annotate(total_comments=Count('comments')), slug=self.kwargs[self.slug_url_kwarg])
 
 
 class AddPage(LoginRequiredMixin, DataMixin, CreateView):
