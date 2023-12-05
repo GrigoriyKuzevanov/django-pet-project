@@ -1,0 +1,26 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+<div class="element-box comment-box">
+
+    <h2>Профиль пользователя</h2>
+
+    <form action="" method="POST" class="comment-form row-fluid">
+        {% csrf_token %}
+
+        <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="errorlist">{{ f.errors }}</div>
+        {% endfor %}
+
+        <p>
+            <input type="submit" value="Сохранить" class="button button-load large-button offset2 spa4">
+        </p>
+
+    </form>
+
+</div>
+
+{% endblock %}
