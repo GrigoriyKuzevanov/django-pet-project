@@ -135,5 +135,24 @@ class TagPost(models.Model):
 #         return self.name
 
 
+class Comment(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор', unique=True)
+    text = models.TextField(max_length=2000, blank=False, verbose_name='Текст комментария')
+    time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["-time_create"]
+        indexes = [models.Index(fields=["-time_create"])]
+
+class Reply(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор', unique=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comments', verbose_name='Ответ')
+    text = models.TextField(max_length=2000, blank=False, verbose_name='Текст ответа')
+    time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
+
+
+
 class UploadFiles(models.Model):
     file = models.FileField(upload_to="uploads_model")
