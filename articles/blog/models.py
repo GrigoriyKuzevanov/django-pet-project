@@ -136,7 +136,7 @@ class TagPost(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор', unique=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comm_authors', verbose_name='Автор')
     text = models.TextField(max_length=2000, blank=False, verbose_name='Текст комментария')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
 
@@ -147,7 +147,7 @@ class Comment(models.Model):
         indexes = [models.Index(fields=["-time_create"])]
 
 class Reply(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор', unique=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reply_authors', verbose_name='Автор')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comments', verbose_name='Ответ')
     text = models.TextField(max_length=2000, blank=False, verbose_name='Текст ответа')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
