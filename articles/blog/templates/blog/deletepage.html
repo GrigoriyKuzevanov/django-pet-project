@@ -4,6 +4,8 @@
 <div class="element-box comment-box">
 
     <h2>{{ title }}</h2>
+    <hr>
+
     <form action="" method="POST" class="comment-form row-fluid">
         {% csrf_token %}
         <p>Вы уверены что хотите удалить "{{ post }}"?</p>

@@ -4,6 +4,8 @@
 <div class="element-box comment-box">
 
     <h2>{{ title }}</h2>
+    <hr>
+    
     <form action="" method="POST" enctype="multipart/form-data" class="comment-form row-fluid">
         {% csrf_token %}
         <div class="errorlist">{{ form.non_field_errors }}</div>

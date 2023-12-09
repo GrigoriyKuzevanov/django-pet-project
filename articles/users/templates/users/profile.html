@@ -5,6 +5,8 @@
 <div class="element-box comment-box">
 
     <h2>Профиль пользователя</h2>
+    <p><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
+    <hr>
 
     <form action="" method="POST" class="comment-form row-fluid">
         {% csrf_token %}
