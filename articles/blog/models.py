@@ -151,11 +151,11 @@ class Comment(models.Model):
         return reverse('post', kwargs={'post_slug': self.post.slug})
 
 
-class Reply(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор')
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies', verbose_name='Ответ')
-    text = models.TextField(max_length=2000, blank=False, verbose_name='Текст ответа')
-    time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
+# class Reply(models.Model):
+#     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='authors', verbose_name='Автор')
+#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies', verbose_name='Ответ')
+#     text = models.TextField(max_length=2000, blank=False, verbose_name='Текст ответа')
+#     time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
 
 
 
