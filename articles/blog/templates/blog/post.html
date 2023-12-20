@@ -44,7 +44,7 @@
 <div class="element-box comment-box">
 
     <h2 id="add_comment">Оставить комментарий</h2>
-
+    {% if user.is_authenticated %}
     <form action="" method="POST" class="comment-form row-fluid">
         {% csrf_token %}
 
@@ -59,6 +59,9 @@
         </p>
 
     </form>
+    {% else %}
+    <p>Войдите чтобы оставить комментарий!</p>
+    {% endif %}
 
     {% if post.total_comments %}
     <h2 id="comments">Всего комментариев: {{ post.total_comments }}</h2>
