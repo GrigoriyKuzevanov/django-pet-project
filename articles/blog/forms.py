@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.utils.deconstruct import deconstructible
 
-from .models import Category, Post
+from .models import Category, Post, Comment
 
 
 @deconstructible
@@ -63,6 +63,23 @@ class AddPostForm(forms.ModelForm):
         title = self.cleaned_data["title"]
         validator(title)
         return title
+
+
+class AddCommentForm(forms.ModelForm):
+    """
+    Добавление комментария
+    """
+    # author = forms.CharField(disabled=True, label='Пользователь', widget=forms.TextInput())
+    text = forms.CharField(label='Комментарий', widget=forms.Textarea())
+    class Meta:
+        model = Comment
+        fields = [
+            # 'author',
+            'text',
+        ]
+        labels = {
+            'text': 'Текст комментария',
+        }
 
 
 class UploadFileForm(forms.Form):

@@ -16,7 +16,7 @@
             <b class="zoom-icon"></b>
         </a>
     </figure>
-    <!-- <p><img src="{{ post.image.url }}"</p> -->
+
     {% endif %}
     
     <p>{{ post.content|linebreaks }}</p>
@@ -24,7 +24,11 @@
     <footer class="element-bottom-bar">
         <ul>
             <li>
-                <a href="#" class="comment-icon"><b>3</b> Comments</a>
+                {% if post.total_comments %}
+                <a href="#comments" class="comment-icon">Комментариев: {{ post.total_comments }}</a>
+                {% else %}
+                <a href="#add_comment" class="comment-icon">Комментариев еще нет</a>
+                {% endif %}
             </li>
             <li>
                 <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
@@ -34,27 +38,48 @@
             </li>
         </ul>			
     </footer>
-    <!-- <footer class="element-bottom-bar">
-        {% with post.tags.all as tags %}
-        {% if tags %}
-        <ul>
-            <li><a href="#">Теги:</a></li>
-            {% for tag in tags %}
-            <li><a href="{{ tag.get_absolute_url }}">{{ tag.tag }}</a></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-    </footer> -->
+
 </article>
 
+<div class="element-box comment-box">
 
-<!-- <h1>{{post.title}}</h1>
+    <h2 id="add_comment">Оставить комментарий</h2>
 
-{% if post.photo %}
-<p><img src="{{ post.photo.url }}"</p>
-{% endif %}
+    <form action="" method="POST" class="comment-form row-fluid">
+        {% csrf_token %}
 
-{{ post.content|linebreaks }} -->
+        <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="errorlist">{{ f.errors }}</div>
+        {% endfor %}
+
+        <p>
+            <input type="submit" value="Опубликовать комментарий" class="button button-load large-button offset2 spa4">
+        </p>
+
+    </form>
+
+    {% if post.total_comments %}
+    <h2 id="comments">Всего комментариев: {{ post.total_comments }}</h2>
+    <ul class="comment-items">
+        {% for comm in post.comments.all %}
+        <li class="row-fluid">
+            <div class="span10 comment-info">
+                <h3>{{ comm.author.first_name }} {{ comm.author.last_name }}</h3>
+                <p>{{ comm.author}}</p>
+                <p>{{ comm.text }}</p>
+                <div>
+                    <!-- <a href="#" class="reply">↶ Reply</a> -->
+                    <b class="time-info">{{ comm.time_create|date:"d-N-Y H:i" }}</b>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</div>
+
 
 {% endblock %}
