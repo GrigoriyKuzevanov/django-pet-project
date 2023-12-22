@@ -20,13 +20,6 @@
     {% endif %}
     
     <p>{{ post.content|linebreaks }}</p>
-    <ul>
-    {% for tag in post.tags.all %}
-        <li>
-            <p>{{ tag }}</p>
-        </li>
-    {% endfor %}
-    </ul>
     
     <footer class="element-bottom-bar">
         <ul>
