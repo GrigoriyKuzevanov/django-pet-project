@@ -20,6 +20,13 @@
     {% endif %}
     
     <p>{{ post.content|linebreaks }}</p>
+    <ul>
+    {% for tag in post.tags.all %}
+        <li>
+            <p>{{ tag }}</p>
+        </li>
+    {% endfor %}
+    </ul>
     
     <footer class="element-bottom-bar">
         <ul>
@@ -68,6 +75,14 @@
     <ul class="comment-items">
         {% for comm in post.comments.all %}
         <li class="row-fluid">
+            <figure class="span1 user-avatar">
+                {% if comm.author.photo %}
+                <img src="{{ comm.author.photo.url }}">
+                {% else %}
+                <img src="{{ default_img }}">
+                {% endif %}
+            </figure>
+
             <div class="span10 comment-info">
                 <h3>{{ comm.author.first_name }} {{ comm.author.last_name }}</h3>
                 <p>{{ comm.author}}</p>

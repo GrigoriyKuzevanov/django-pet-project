@@ -1,4 +1,5 @@
 from typing import Any
+from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -97,7 +98,7 @@ class ShowPost(DataMixin, DetailView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(context, title=context['post'].title, form=AddCommentForm)
+        return self.get_mixin_context(context, title=context['post'].title, form=AddCommentForm, default_img=settings.DEFAULT_USER_IMAGE)
 
     def get_object(self, queryset=None):
         return get_object_or_404(Post.published.prefetch_related('comments').annotate(total_comments=Count('comments')), slug=self.kwargs[self.slug_url_kwarg])

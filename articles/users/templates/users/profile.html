@@ -8,8 +8,14 @@
     <p><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
     <hr>
 
-    <form action="" method="POST" class="comment-form row-fluid">
+    <form action="" method="POST" class="comment-form row-fluid" enctype="multipart/form-data">
         {% csrf_token %}
+
+        {% if user.photo %}
+        <p><img src="{{ user.photo.url }}"></p>
+        {% else %}
+        <p><img src="{{ default_img }}"></p>
+        {% endif %}
 
         <div class="errorlist">{{ form.non_field_errors }}</div>
         {% for f in form %}
