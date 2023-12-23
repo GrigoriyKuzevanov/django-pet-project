@@ -31,6 +31,10 @@
     
     <p>{{ post.content|linebreaks }}</p>
     
+    {% if post.author == user %}
+    <p><a href="{% url 'edit' post.slug %}">Редактировать пост  </a></p>
+    {% endif %}
+
     <footer class="element-bottom-bar">
         <ul>
             <li>
