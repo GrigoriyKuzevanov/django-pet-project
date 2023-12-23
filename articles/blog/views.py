@@ -2,7 +2,7 @@ from typing import Any
 from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator
 from django.db import models
 from django.db.models.query import QuerySet
@@ -104,7 +104,7 @@ class ShowPost(DataMixin, DetailView, CreateView):
         return get_object_or_404(Post.published.prefetch_related('comments').annotate(total_comments=Count('comments')), slug=self.kwargs[self.slug_url_kwarg])
 
 
-class AddPage(LoginRequiredMixin, DataMixin, CreateView):
+class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     # model = Post
     # fields = ['title', 'slug', 'image', 'content', 'is_published', 'category', 'author']
@@ -114,6 +114,7 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
     )  # функция revers_lazy возвращает полный маршрут по имени из urls path в момент вызова
     # в CreateView берется из метода get_absolute_url класса связанной модели
     title_page = "Добавление поста"
+    permission_required = 'blog.add_post'   # <приложение>.<действие>_<таблица>
 
     def form_valid(
         self, form
@@ -123,12 +124,13 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdatePage(DataMixin, UpdateView):
+class UpdatePage(PermissionRequiredMixin, DataMixin, UpdateView):
     model = Post
     fields = ["title", "content", "image", "is_published", "category"]
     template_name = "blog/addpage.html"
     success_url = reverse_lazy("home")
     title_page = "Редактирование поста"
+    permission_required = 'blog.change_post'
 
 
 class DeletePage(DataMixin, DeleteView):
