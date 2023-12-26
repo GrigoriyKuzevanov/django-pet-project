@@ -83,12 +83,15 @@ def about(request):
 
 
 class ShowPost(DataMixin, DetailView, CreateView):
-    # model = Post
+    model = Post
     form_class = AddCommentForm
     template_name = "blog/post.html"
     slug_url_kwarg = "post_slug"  # название slug переменной из запроса в urls
-    # context_object_name = 'post'
-    
+    context_object_name = 'post'
+  
+    def get_success_url(self):
+        kwargs={'post_slug': self.get_object().slug}
+        return reverse_lazy('post', kwargs=kwargs)
 
     def form_valid(self, form):
         c = form.save(commit=False)
@@ -103,7 +106,7 @@ class ShowPost(DataMixin, DetailView, CreateView):
     def get_object(self, queryset=None):
         return get_object_or_404(Post.published.prefetch_related('comments').annotate(total_comments=Count('comments')), slug=self.kwargs[self.slug_url_kwarg])
 
-
+    
 class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     # model = Post

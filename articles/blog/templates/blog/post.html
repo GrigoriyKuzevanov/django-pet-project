@@ -55,56 +55,6 @@
 
 </article>
 
-<div class="element-box comment-box">
-
-    <h2 id="add_comment">Оставить комментарий</h2>
-    {% if user.is_authenticated %}
-    <form action="" method="POST" class="comment-form row-fluid">
-        {% csrf_token %}
-
-        <div class="errorlist">{{ form.non_field_errors }}</div>
-        {% for f in form %}
-        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-        <div class="errorlist">{{ f.errors }}</div>
-        {% endfor %}
-
-        <p>
-            <input type="submit" value="Опубликовать комментарий" class="button button-load large-button offset2 spa4">
-        </p>
-
-    </form>
-    {% else %}
-    <p>Войдите чтобы оставить комментарий!</p>
-    {% endif %}
-
-    {% if post.total_comments %}
-    <h2 id="comments">Всего комментариев: {{ post.total_comments }}</h2>
-    <ul class="comment-items">
-        {% for comm in post.comments.all %}
-        <li class="row-fluid">
-            <figure class="span1 user-avatar">
-                {% if comm.author.photo %}
-                <img src="{{ comm.author.photo.url }}">
-                {% else %}
-                <img src="{{ default_img }}">
-                {% endif %}
-            </figure>
-
-            <div class="span10 comment-info">
-                <h3>{{ comm.author.first_name }} {{ comm.author.last_name }}</h3>
-                <p>{{ comm.author}}</p>
-                <p>{{ comm.text }}</p>
-                <div>
-                    <!-- <a href="#" class="reply">↶ Reply</a> -->
-                    <b class="time-info">{{ comm.time_create|date:"d-N-Y H:i" }}</b>
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-</div>
-
+{% include 'blog/includes/comments.html' %}
 
 {% endblock %}

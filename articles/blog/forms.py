@@ -69,17 +69,27 @@ class AddCommentForm(forms.ModelForm):
     """
     Добавление комментария
     """
-    # author = forms.CharField(disabled=True, label='Пользователь', widget=forms.TextInput())
     text = forms.CharField(label='Комментарий', widget=forms.Textarea())
+    parent = forms.IntegerField(widget=forms.HiddenInput(attrs={'name': 'parent', 'id': 'commentparent'}), initial=0)
+
     class Meta:
         model = Comment
         fields = [
             # 'author',
             'text',
+            'parent'
         ]
         labels = {
             'text': 'Текст комментария',
         }
+
+    # def clean_parent(self):
+    #     parent_id = self.cleaned_data['parent']
+    #     return Comment.objects.get(pk=parent_id)
+    
+    def clean_parent(self):
+        parent_id = self.cleaned_data['parent']
+        return Comment.objects.filter(pk=parent_id).first()
 
 
 class UploadFileForm(forms.Form):

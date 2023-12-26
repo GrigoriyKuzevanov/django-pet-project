@@ -1,0 +1,87 @@
+<div class="element-box comment-box">
+
+    <h2 id="add_comment">Оставить комментарий</h2>
+    {% if user.is_authenticated %}
+    <form action="" method="POST" class="comment-form row-fluid" id="commentform">
+        {% csrf_token %}
+
+        <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        {% if f.label == 'Parent' %}
+        {{ f.as_hidden }}
+        {% else %}
+        <p><label class="span2" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+        <div class="errorlist">{{ f.errors }}</div>
+        {% endif %}
+        {% endfor %}
+
+        <p>
+            <input type="submit" value="Опубликовать комментарий" class="button button-load large-button offset2 spa4">
+        </p>
+
+    </form>
+    {% else %}
+    <p>Войдите чтобы оставить комментарий!</p>
+    {% endif %}
+
+    {% if post.total_comments %}
+    <h2 id="comments">Всего комментариев: {{ post.total_comments }}</h2>
+    <ul class="comment-items">
+        {% for comm in post.comments.all %}
+        {% if not comm.parent  %}
+
+        <li class="row-fluid">
+            <figure class="span1 user-avatar">
+                {% if comm.author.photo %}
+                <img src="{{ comm.author.photo.url }}">
+                {% else %}
+                <img src="{{ default_img }}">
+                {% endif %}
+            </figure>
+
+            <div class="span10 comment-info">
+                <h3>{{ comm.author}}</h3>
+                <p>{{ comm.author.first_name }} {{ comm.author.last_name }}</p>
+                <p>{{ comm.text }}</p>
+                <div>
+                    <a href="#commentform" class="reply" onclick="addReply('{{ comm.author }}', '{{ comm.id }}')">↶ Reply</a>
+                    <b class="time-info">{{ comm.time_create|date:"d-N-Y H:i" }}</b>
+                </div>
+            </div>
+        
+            {% for reply in comm.replies.all %}
+            <ul>
+                <li>
+                    <figure class="span1 user-avatar">
+                        {% if reply.author.photo %}
+                        <img src="{{ reply.author.photo.url }}">
+                        {% else %}
+                        <img src="{{ default_img }}">
+                        {% endif %}
+                    </figure>
+        
+                    <div class="span10 comment-info">
+                        <h3>{{ reply.author}}</h3>
+                        <p>{{ reply.author.first_name }} {{ reply.author.last_name }}</p>
+                        <p>{{ reply.text }}</p>
+                        <div>
+                            <b class="time-info">{{ comm.time_create|date:"d-N-Y H:i" }}</b>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% endfor %}
+        </li>
+        {% endif %}
+        {% endfor %}    
+    </ul>
+    {% endif %}
+
+<script>
+    function addReply(name, id) {
+        document.getElementById("id_parent").value = id;
+        document.getElementById("id_text").innerText = `${name}, `;
+    }
+</script>
+
+</div>

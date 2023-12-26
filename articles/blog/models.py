@@ -137,6 +137,7 @@ class TagPost(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments', verbose_name='Автор', null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', null=True)
     text = models.TextField(max_length=2000, blank=False, verbose_name='Текст комментария')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Дата создания')
