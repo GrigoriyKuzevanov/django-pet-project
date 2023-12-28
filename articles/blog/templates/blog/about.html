@@ -1,21 +1,22 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-{% for item in page_obj %}
+<h2>О сайте</h2>
+<p>Учебный проект - блог на Django</p>
 
-<p>{{ item }}: {{ item.time_create }}</p>
-
-{% endfor %}
-
-<div class="pagination">
-    <ul>
-        {% for p in page_obj.paginator.page_range %}
-        <li>
-            <a href="?page={{ p }}">{{ p }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+<h2>Контактная информация</h2>
+<ul>
+    <li>
+        <p>
+            <b>&#9993;</b>
+            <a href="mailto:grkuzevanov@gmail.com">grkuzevanov@gmail.com</a>
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>&#9990;</b>+7(922)169-08-11
+        </p>
+    </li>
+</ul>
 
 {% endblock %}

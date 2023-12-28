@@ -69,16 +69,15 @@ class PostCategory(DataMixin, ListView):
 
 @login_required
 def about(request):
-    contact_list = Post.published.all()
-    paginator = Paginator(contact_list, 3)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    context = {
+        'title': 'О сайте',
+        'menu': menu,
+    }
 
     return render(
         request,
         "blog/about.html",
-        {"title": "О сайте", "menu": menu, "page_obj": page_obj},
+        context=context,
     )
 
 
