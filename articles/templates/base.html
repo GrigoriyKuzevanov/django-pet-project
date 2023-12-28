@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="blog" content="Django pet project">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{ title }}</title>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="{% static 'blog/css/bootstrap.css' %}" />
+	<link rel="stylesheet" href="{% static 'blog/css/style.css' %}" />
+</head>
+<body>
+    <div class="container">
+
+        <header class="row">
+            
+            <div class="span12">
+
+                <div class="identity">
+                    <a href="index.html" class="logo">Dj blog</a>
+                    <b>Hello</b>
+                    <p>Django pet project / blog</p>
+                </div>
+            </div>
+            
+            <div class="span12 nav-box">
+                
+                <nav class="span9_menu main-menu">                    
+                    {% include 'includes/main_menu.html' %}
+                </nav>
+
+                <!-- <form action="#" class="span3 search-nav">
+					<p>
+
+						<input type="submit" value="search">
+						<input type="text" placeholder="Search">
+						
+					</p>
+				</form> -->
+            </div>
+        </header>
+
+        {% block content %}{% endblock %}
+
+    </div>
+</body>

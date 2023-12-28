@@ -152,7 +152,7 @@ def login(request):
 
 
 def page_not_found(request, exception):
-    return HttpResponseNotFound("<h1>Page not found</h1>")
+    return render(request, 'blog/page_not_found.html', context={'title': 'Страница не найдена'})
 
 
 class TagList(DataMixin, ListView):
