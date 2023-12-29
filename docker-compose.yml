@@ -1,0 +1,74 @@
+version: '3.9'
+
+networks:
+  dev_network:
+
+services:
+
+  db:
+    image: postgres:14.3-alpine3.15
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_DB: articles
+      POSTGRES_USER: articles_user
+      POSTGRES_PASSWORD: smack1990
+
+
+    networks:
+      dev_network:
+        aliases:
+          - postgre
+
+  app:
+    build:
+      context: ./articles
+
+    volumes:
+      - static:/app/static_project
+
+    environment:
+      NAME_DB: articles
+      USER_DB: articles_user
+      PASSWORD_DB: smack1990
+      HOST_DB: postgre
+      PORT_DB: "5432"
+      WAIT_HOSTS: postgre:5432
+      SECRET_KEY: "django-insecure-ksl&trntrid^i)ou#jd8=lfam36c5rl=ljlq=+clpteqx&6jej"
+      EMAIL_HOST: "smtp.yandex.ru"
+      EMAIL_HOST_PASSWORD: "lizcoowrvjptreay"
+      EMAIL_HOST_USER: 'hiddero90@yandex.ru'
+      EMAIL_USE_SSL: "True"
+      EMAIL_PORT: "465"
+
+    ports:
+      - "8080:8000"
+    
+    expose:
+      - "8000"
+
+    depends_on:
+      - db
+    
+    networks:
+      dev_network:
+        aliases:
+          - app
+
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static:/static
+    depends_on:
+      - app
+    restart: always
+    networks:
+      dev_network:
+        aliases:
+          - nginx
+
+volumes:
+  static:
