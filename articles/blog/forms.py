@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.utils.deconstruct import deconstructible
 
-from .models import Category, Post, Comment
+from .models import Category, Comment, Post
 
 
 @deconstructible
@@ -69,26 +69,30 @@ class AddCommentForm(forms.ModelForm):
     """
     Добавление комментария
     """
-    text = forms.CharField(label='Комментарий', widget=forms.Textarea())
-    parent = forms.IntegerField(widget=forms.HiddenInput(attrs={'name': 'parent', 'id': 'commentparent'}), initial=0)
+
+    text = forms.CharField(label="Комментарий", widget=forms.Textarea())
+    parent = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={"name": "parent", "id": "commentparent"}),
+        initial=0,
+    )
 
     class Meta:
         model = Comment
         fields = [
             # 'author',
-            'text',
-            'parent'
+            "text",
+            "parent",
         ]
         labels = {
-            'text': 'Текст комментария',
+            "text": "Текст комментария",
         }
 
     # def clean_parent(self):
     #     parent_id = self.cleaned_data['parent']
     #     return Comment.objects.get(pk=parent_id)
-    
+
     def clean_parent(self):
-        parent_id = self.cleaned_data['parent']
+        parent_id = self.cleaned_data["parent"]
         return Comment.objects.filter(pk=parent_id).first()
 
 

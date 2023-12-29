@@ -1,12 +1,13 @@
 from typing import Any
-from django.conf import settings
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 from django.core.paginator import Paginator
 from django.db import models
-from django.db.models.query import QuerySet
 from django.db.models import Count
+from django.db.models.query import QuerySet
 from django.http import (HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
@@ -19,7 +20,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 
 from blog.utils import DataMixin
 
-from .forms import AddPostForm, UploadFileForm, AddCommentForm
+from .forms import AddCommentForm, AddPostForm, UploadFileForm
 from .models import Category, Post, TagPost, UploadFiles
 
 menu = [
@@ -70,8 +71,8 @@ class PostCategory(DataMixin, ListView):
 @login_required
 def about(request):
     context = {
-        'title': 'О сайте',
-        'menu': menu,
+        "title": "О сайте",
+        "menu": menu,
     }
 
     return render(
@@ -86,11 +87,11 @@ class ShowPost(DataMixin, DetailView, CreateView):
     form_class = AddCommentForm
     template_name = "blog/post.html"
     slug_url_kwarg = "post_slug"  # название slug переменной из запроса в urls
-    context_object_name = 'post'
-  
+    context_object_name = "post"
+
     def get_success_url(self):
-        kwargs={'post_slug': self.get_object().slug}
-        return reverse_lazy('post', kwargs=kwargs)
+        kwargs = {"post_slug": self.get_object().slug}
+        return reverse_lazy("post", kwargs=kwargs)
 
     def form_valid(self, form):
         c = form.save(commit=False)
@@ -100,12 +101,22 @@ class ShowPost(DataMixin, DetailView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return self.get_mixin_context(context, title=context['post'].title, form=AddCommentForm, default_img=settings.DEFAULT_USER_IMAGE)
+        return self.get_mixin_context(
+            context,
+            title=context["post"].title,
+            form=AddCommentForm,
+            default_img=settings.DEFAULT_USER_IMAGE,
+        )
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Post.published.prefetch_related('comments').annotate(total_comments=Count('comments')), slug=self.kwargs[self.slug_url_kwarg])
+        return get_object_or_404(
+            Post.published.prefetch_related("comments").annotate(
+                total_comments=Count("comments")
+            ),
+            slug=self.kwargs[self.slug_url_kwarg],
+        )
 
-    
+
 class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     # model = Post
@@ -116,7 +127,7 @@ class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView
     )  # функция revers_lazy возвращает полный маршрут по имени из urls path в момент вызова
     # в CreateView берется из метода get_absolute_url класса связанной модели
     title_page = "Добавление поста"
-    permission_required = 'blog.add_post'   # <приложение>.<действие>_<таблица>
+    permission_required = "blog.add_post"  # <приложение>.<действие>_<таблица>
 
     def form_valid(
         self, form
@@ -132,7 +143,7 @@ class UpdatePage(PermissionRequiredMixin, DataMixin, UpdateView):
     template_name = "blog/addpage.html"
     success_url = reverse_lazy("home")
     title_page = "Редактирование поста"
-    permission_required = 'blog.change_post'
+    permission_required = "blog.change_post"
 
 
 class DeletePage(DataMixin, DeleteView):
@@ -151,7 +162,9 @@ def login(request):
 
 
 def page_not_found(request, exception):
-    return render(request, 'blog/page_not_found.html', context={'title': 'Страница не найдена'})
+    return render(
+        request, "blog/page_not_found.html", context={"title": "Страница не найдена"}
+    )
 
 
 class TagList(DataMixin, ListView):
