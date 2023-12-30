@@ -1,0 +1,40 @@
+version: '3.9'
+
+networks:
+  dev_network:
+
+services:
+  app:
+    build:
+      context: ./articles
+    env_file:
+      - ${ENV}
+    environment:
+      - HOST_DB=postgre
+      - WAIT_HOSTS=postgre:5432
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - db
+    networks:
+      dev_network:
+        aliases:
+          - app
+
+  db:
+    image: postgres:14.3-alpine3.15
+    ports:
+      - 5431:5432
+    restart: always
+    env_file:
+      - ${ENV}
+    environment:
+      - POSTGRES_DB=${NAME_DB}
+      - POSTGRES_USER=${USER_DB}
+      - POSTGRES_PASSWORD=${PASSWORD_DB}
+    networks:
+      dev_network:
+        aliases:
+          - postgre
