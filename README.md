@@ -1,48 +1,56 @@
-# Блог на Django
----
+# Django blog
+## Technologies
+- Django 4
+- Postgresql
 
-## УСТАНОВКА И ЗАПУСК
+## Configuration
+Use docker-compose to run project:
+- `docker-compose-local.yml` - file for local run
+- `docker-compose-master.yml` - file for production run
 
-**Создать виртуальное окружение**
+Before run the project you should add an `.env` file in the project root directory and set next variables in it:
 ```
-python3 -m venv env
-```
+ENV=.env
 
-**Установить зависимости**
-```
-pip install -r requirements.txt
-```
+# Postgres
+NAME_DB=a
+USER_DB=a
+PASSWORD_DB=
+HOST_DB=
+PORT_DB=
 
-**Создать файл .env, в котором создать переменные для подключения к базе данных**
-```
-NAME_DB=<your_db_name>
-USER_DB=<your_user_name>
-PASSWORD_DB=s<your_password>
-HOST_DB=<your_host>
-PORT_DB=<your_port>
-```
+# Project settings
+SECRET_KEY=
+DEBUG=
 
-**Создать миграции и таблицы в БД (for linux)**
-```
-cd articles
-python manage.py makemigrations
-python manage.py migrate
-```
-
-**Запуск**
-```
-python manage.py runserver
+# Mail
+EMAIL_HOST=
+EMAIL_HOST_PASSWORD=
+EMAIL_HOST_USER=
+EMAIL_USE_SSL=
+EMAIL_PORT=
 ```
 
-**Начальная страница доступна по адресу**
+
+## Run project
+
+
+**Local**
 ```
-127.0.0.1:8000/blog/
+docker-compose -f docker-compose-local.yml up --build
 ```
 
----
+**Production**
 
-## О ПРОЕКТЕ
-
-Учебный проект - Блог с использованием фреймворка Django.
-Реализована система авторизации и аутентификации пользователей, добавление записей, комментарии, система тэгов, отображение записей по
-категориям.
+Start docker:
+```
+docker-compose -f docker-compose-master.yml up --build -d
+```
+Launch shell inside the app docker container:
+```
+docker exec -it <APP_CONTAINER_ID> sh
+```
+Create superuser for django app inside the container:
+```
+python3 manage.py createsuperuser
+```
