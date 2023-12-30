@@ -12,6 +12,7 @@ services:
     environment:
       - HOST_DB=postgre
       - WAIT_HOSTS=postgre:5432
+      - DEBUG=True
     ports:
       - 8000:8000
     expose:
@@ -25,6 +26,8 @@ services:
 
   db:
     image: postgres:14.3-alpine3.15
+    volumes:
+      - postgres:/var/lib/postgresql/data/
     ports:
       - 5431:5432
     restart: always
@@ -38,3 +41,6 @@ services:
       dev_network:
         aliases:
           - postgre
+
+volumes:
+  postgres:
