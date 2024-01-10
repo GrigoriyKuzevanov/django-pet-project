@@ -18,16 +18,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from blog.views import page_not_found
 from django.views.generic.base import RedirectView
 
+from blog.views import page_not_found
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='blog', permanent=True)),
-    path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls'), name="blog"),
-    path('users/', include('users.urls', namespace='users')),
-    path('__debug__/', include('debug_toolbar.urls')),
+    path("", RedirectView.as_view(url="blog", permanent=True)),
+    path("admin/", admin.site.urls),
+    path("blog/", include("blog.urls"), name="blog"),
+    path("users/", include("users.urls", namespace="users")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 # для отображения медиа в режиме DEBUG=True

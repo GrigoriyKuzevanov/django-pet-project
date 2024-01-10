@@ -41,7 +41,7 @@ class PostHome(DataMixin, ListView):
     cat_selected = 0
 
     def get_queryset(self):
-        return Post.published.all()
+        return Post.published.all().select_related("author")
 
 
 class PostUser(DataMixin, ListView):
@@ -65,7 +65,7 @@ class PostCategory(DataMixin, ListView):
     def get_queryset(self):
         return Post.published.filter(
             category__slug=self.kwargs["cat_slug"]
-        )  # cat_slug из url blog/<cat_slug>
+        ).select_related("author")  # cat_slug из url blog/<cat_slug>
 
     def get_context_data(self, **kwargs):
         """
