@@ -178,4 +178,14 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'users.User'
 
 
-DEFAULT_USER_IMAGE =    MEDIA_URL + 'users/default.png'
+DEFAULT_USER_IMAGE = MEDIA_URL + 'users/default.png'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.getenv('REDIS_URL'),
+        "OPTIONS": {
+            'db': '1',
+        }
+    }
+}

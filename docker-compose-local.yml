@@ -42,5 +42,13 @@ services:
         aliases:
           - postgre
 
+  redis:
+    image: redis:7-alpine
+    restart: always
+    env_file:
+      - ${ENV}
+    ports:
+      - 6380:6379
+
 volumes:
   postgres:
