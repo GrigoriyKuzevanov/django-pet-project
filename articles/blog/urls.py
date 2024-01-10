@@ -15,4 +15,5 @@ urlpatterns = [
     path("tag/<slug:tag_slug>/", views.TagList.as_view(), name="tag"),
     path("edit/<slug:slug>/", views.UpdatePage.as_view(), name="edit"),
     path("delete/<slug:slug>/", views.DeletePage.as_view(), name="delete"),
+    path('my_posts/', views.PostUser.as_view(), name='user_posts'),
 ]

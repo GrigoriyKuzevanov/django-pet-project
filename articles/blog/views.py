@@ -44,6 +44,16 @@ class PostHome(DataMixin, ListView):
         return Post.published.all()
 
 
+class PostUser(DataMixin, ListView):
+    template_name = "blog/index2.html"
+    context_object_name = "posts"
+    title_page = "Мои статьи"
+    cat_selected = 0
+
+    def get_queryset(self):
+        return Post.published.filter(author=self.request.user).select_related("author")
+
+
 class PostCategory(DataMixin, ListView):
     template_name = "blog/index2.html"
     context_object_name = "posts"
@@ -68,7 +78,6 @@ class PostCategory(DataMixin, ListView):
         )
 
 
-@login_required
 def about(request):
     context = {
         "title": "О сайте",
