@@ -45,13 +45,14 @@ class PostHome(DataMixin, ListView):
 
 
 class PostUser(DataMixin, ListView):
-    template_name = "blog/index2.html"
+    template_name = "blog/user_posts.html"
     context_object_name = "posts"
     title_page = "Мои статьи"
     cat_selected = 0
+    paginate_by = 5
 
     def get_queryset(self):
-        return Post.published.filter(author=self.request.user).select_related("author")
+        return Post.objects.filter(author=self.request.user).select_related("author")
 
 
 class PostCategory(DataMixin, ListView):
@@ -119,7 +120,7 @@ class ShowPost(DataMixin, DetailView, CreateView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(
-            Post.published.prefetch_related("comments").annotate(
+            Post.objects.prefetch_related("comments").annotate(
                 total_comments=Count("comments")
             ),
             slug=self.kwargs[self.slug_url_kwarg],

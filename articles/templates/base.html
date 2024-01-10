@@ -43,6 +43,21 @@
         </header>
 
         {% block content %}{% endblock %}
+        {% block navigation %}{% endblock %}
 
     </div>
+
+    <footer class="main-footer">
+
+        <div class="container">
+
+            <div class="row">
+
+                <nav class="footer-nav span8">
+                    
+                    {% include 'includes/main_menu.html' %}
+                </nav>
+            </div>
+        </div>
+    </footer>
 </body>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% for p in posts %}
+<article class="element-box">
+    <header class="element-top-bar clearfix">
+        <a href="" class="user-info f1">{{ p.author.username }}</a>
+        <b class="time-info fr">{{ p.time_update|date:"d-N-Y H:i" }}</b>
+    </header>
+
+    <h2>{{ p.title }}</h2>
+    {% autoescape off %}
+    <p>{{ p.content|linebreaks|truncatewords:20 }}</p>
+    {% endautoescape %}
+    <p><a href="{{ p.get_absolute_url }}">***Читать пост***</a></p>
+    <p><a href="{% url 'edit' p.slug %}">***Редактировать пост***</a><b> Опубликовано: {{ p.is_published }}</b></p>
+    <p><a href="{% url 'delete' p.slug %}">***Удалить пост***</a></p>
+
+    <footer class="element-bottom-bar">
+        <ul>
+
+        </ul>
+    </footer>
+
+</article>
+{% endfor %}
+{% endblock %}
+
+{% block navigation %}
+{% include 'blog/includes/navigation.html' %}
+{% endblock %}
