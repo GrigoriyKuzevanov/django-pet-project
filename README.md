@@ -2,6 +2,7 @@
 ## Technologies
 - Django 4
 - Postgresql
+- Redis
 
 ## Configuration
 Use docker-compose to run project:
