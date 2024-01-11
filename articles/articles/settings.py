@@ -189,3 +189,5 @@ CACHES = {
         }
     }
 }
+
+CASHE_TTL = 60
