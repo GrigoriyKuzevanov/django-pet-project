@@ -7,6 +7,8 @@ services:
   app:
     build:
       context: ./articles
+    volumes:
+      - app:/app
     env_file:
       - ${ENV}
     environment:
@@ -42,13 +44,38 @@ services:
         aliases:
           - postgre
 
-  redis:
+  redis_db:
     image: redis:7-alpine
     restart: always
     env_file:
       - ${ENV}
     ports:
       - 6380:6379
+    networks:
+      dev_network:
+        aliases:
+          - redis
+
+  celery:
+    restart: always
+    env_file:
+      - ${ENV}
+    environment:
+      - WAIT_HOSTS=redis:6379
+      - REDIS_URL=redis://redis:6379/1
+    build:
+      context: ./articles
+      dockerfile: Dockerfile.celery
+    volumes:
+      - app:/app
+    depends_on:
+      - redis_db
+      - app
+    networks:
+      dev_network:
+        aliases:
+          - celery
 
 volumes:
   postgres:
+  app:
