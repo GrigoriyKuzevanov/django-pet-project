@@ -11,6 +11,7 @@ from django.contrib.auth.views import (
     PasswordChangeView,
 )
 from django.db import models
+from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -38,6 +39,10 @@ class RegisterUser(CreateView):
     template_name = "users/register.html"
     extra_context = {"title": "Регистрация"}
     success_url = reverse_lazy("users:login")
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
 
 class ProfileUser(LoginRequiredMixin, UpdateView):

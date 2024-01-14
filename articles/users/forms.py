@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
                                        UserCreationForm)
 
+from users.tasks import send_user_registration_mail_task
+
 
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label="Логин", widget=forms.TextInput())
@@ -51,6 +53,12 @@ class RegisterUserForm(UserCreationForm):
         ):  # проверка на существование в базе данных пользователя с введенным почтовым адресом
             raise forms.ValidationError("Указанный e-mail уже существует")
         return email
+    
+    def send_email(self):
+        user = self.cleaned_data["username"]
+        message = f"Congratulations {user}! You've registered successfully!"
+        email = self.cleaned_data["email"]
+        send_user_registration_mail_task.delay(email, message)
 
 
 class ProfileUserForm(forms.ModelForm):
