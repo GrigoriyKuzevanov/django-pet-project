@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
                                        UserCreationForm)
 
-from users.tasks import send_user_registration_mail_task
+from users.tasks import send_mail_to_user_task
 
 
 class LoginUserForm(AuthenticationForm):
@@ -56,9 +56,13 @@ class RegisterUserForm(UserCreationForm):
     
     def send_email(self):
         user = self.cleaned_data["username"]
-        message = f"Congratulations {user}! You've registered successfully!"
+        subject = "DJ-Blog registration"
+        message = f"""
+        Congratulations! You've successfully registered on the DJ-Blog website!
+        Your login for enter the site is <{user}>
+        """
         email = self.cleaned_data["email"]
-        send_user_registration_mail_task.delay(email, message)
+        send_mail_to_user_task.delay(email, message, subject)
 
 
 class ProfileUserForm(forms.ModelForm):

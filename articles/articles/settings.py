@@ -178,7 +178,7 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'users.User'
 
 
-DEFAULT_USER_IMAGE = MEDIA_URL + 'users/default.png'
+DEFAULT_USER_IMAGE = MEDIA_URL + 'users/default-user-icon.jpg'
 
 CACHES = {
     "default": {
