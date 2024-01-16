@@ -149,13 +149,13 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdatePage(PermissionRequiredMixin, DataMixin, UpdateView):
+class UpdatePage(DataMixin, UpdateView):
     model = Post
     fields = ["title", "content", "image", "is_published", "category"]
     template_name = "blog/addpage.html"
     success_url = reverse_lazy("home")
     title_page = "Редактирование поста"
-    permission_required = "blog.change_post"
+    # permission_required = "blog.change_post"
 
 
 class DeletePage(DataMixin, DeleteView):
