@@ -1,6 +1,8 @@
 from collections.abc import Iterable
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
 from users.tasks import resize_user_avatar
 
 
@@ -14,5 +16,5 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        print(self.photo.path)
-        resize_user_avatar.delay(self.photo.path)
+        if self.photo:
+            resize_user_avatar.delay(self.photo.path)

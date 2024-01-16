@@ -2,26 +2,21 @@ from typing import Any
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 from django.core.paginator import Paginator
 from django.db import models
 from django.db.models import Count
 from django.db.models.query import QuerySet
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import (HttpResponse, HttpResponseNotFound,
+                         HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    FormView,
-    ListView,
-    TemplateView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, TemplateView, UpdateView)
 
 from blog.utils import DataMixin
 
@@ -134,7 +129,7 @@ class ShowPost(DataMixin, DetailView, CreateView):
         )
 
 
-class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPostForm
     # model = Post
     # fields = ['title', 'slug', 'image', 'content', 'is_published', 'category', 'author']
@@ -144,7 +139,7 @@ class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView
     )  # функция revers_lazy возвращает полный маршрут по имени из urls path в момент вызова
     # в CreateView берется из метода get_absolute_url класса связанной модели
     title_page = "Добавление поста"
-    permission_required = "blog.add_post"  # <приложение>.<действие>_<таблица>
+    # permission_required = "blog.add_post"  # <приложение>.<действие>_<таблица>
 
     def form_valid(
         self, form
