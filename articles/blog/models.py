@@ -4,6 +4,8 @@ from django.db.models.query import QuerySet
 from django.urls import reverse
 from slugify import slugify
 
+from blog.tasks import resize_post_image
+
 
 class PublishedManager(models.Manager):
     """
@@ -79,9 +81,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("post", kwargs={"post_slug": self.slug})
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title) # при сохранении поста, поле слаг формируется автоматически на основе заголовка
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image:
+            resize_post_image.delay(self.image.path)
 
     class Meta:
         verbose_name = "Пост"

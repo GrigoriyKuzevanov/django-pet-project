@@ -9,13 +9,14 @@ services:
       context: ./articles
       dockerfile: Dockerfile.prod
     volumes:
-      - static:/app/static_project
+      - static:/app/static_articles
       - media:/app/media
     env_file:
       - ${ENV}
     environment:
       - HOST_DB=postgre
       - WAIT_HOSTS=postgre:5432
+      - DEBUG=False
     ports:
       - 8000:8000
     expose:
@@ -60,13 +61,39 @@ services:
         aliases:
           - nginx
 
-  redis:
+  redis_db:
     image: redis:7-alpine
     restart: always
     env_file:
       - ${ENV}
     ports:
       - 6380:6379
+    networks:
+      dev_network:
+        aliases:
+          - redis
+
+  celery:
+    restart: always
+    env_file:
+      - ${ENV}
+    environment:
+      - WAIT_HOSTS=redis:6379
+      - REDIS_URL=redis://redis:6379/1
+    build:
+      context: ./articles
+      dockerfile: Dockerfile.celery
+    volumes:
+      - static:/app/static_project
+      - media:/app/media
+    depends_on:
+      - redis_db
+      - app
+    networks:
+      dev_network:
+        aliases:
+          - celery
+
 
 volumes:
   static:
