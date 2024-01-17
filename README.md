@@ -3,6 +3,7 @@
 - Django 4
 - Postgresql
 - Redis
+- Celery
 
 ## Configuration
 Use docker-compose to run project:
