@@ -1,8 +1,9 @@
 import os
 
 from celery import shared_task
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from PIL import Image
+from time import sleep
 
 
 @shared_task
@@ -35,3 +36,16 @@ def resize_user_avatar(img_path):
     new_img = img.crop((crop, 0, width_new - crop, fixed_height))
 
     new_img.save(img_path)
+
+@shared_task
+def send_mail_to_user_pass_reset_task(
+    subject,
+    body,
+    from_email,
+    to_email,
+    html_email=None,
+    ):
+        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+        if html_email is not None:
+             email_message.attach_alternative(html_email, "text/html")
+        email_message.send()

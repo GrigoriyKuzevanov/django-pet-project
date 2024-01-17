@@ -22,7 +22,10 @@ from users.forms import (
     ProfileUserForm,
     RegisterUserForm,
     UserChangePasswordForm,
+    UserPasswordResetForm
 )
+
+from django.contrib.auth.views import PasswordResetView
 
 
 class LoginUser(LoginView):
@@ -65,3 +68,6 @@ class UserPasswordChange(PasswordChangeView):
     form_class = UserChangePasswordForm
     success_url = reverse_lazy("users:password_change_done")
     template_name = "users/password_change_form.html"
+
+class UserPasswordResetView(PasswordResetView):
+    form_class = UserPasswordResetForm
