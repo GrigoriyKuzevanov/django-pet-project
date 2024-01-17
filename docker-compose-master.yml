@@ -9,7 +9,7 @@ services:
       context: ./articles
       dockerfile: Dockerfile.prod
     volumes:
-      - static:/app/static
+      - static:/app/static_articles
       - media:/app/media
     env_file:
       - ${ENV}
